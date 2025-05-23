@@ -3,6 +3,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { useLanguage } from "@/contexts/language-context";
+import { Crown } from "lucide-react";
 import React from "react";
 
 interface PlayerNameRowProps {
@@ -18,11 +20,13 @@ export function PlayerNameRow({
   updatePlayerName,
   currentPhases,
 }: PlayerNameRowProps) {
+  const { t } = useLanguage();
+
   return (
     <TableRow>
       <TableCell className="border border-gray-200"></TableCell>
       <TableCell className="border border-gray-200 font-bold">
-        PLAYER&apos;S NAME
+        {t("playerName")}
       </TableCell>
       {Array.from({ length: playerCount }).map((_, index) => (
         <React.Fragment key={`player-${index}`}>
@@ -39,7 +43,11 @@ export function PlayerNameRow({
                 className="absolute -top-2 -right-2 bg-green-600"
                 title="Current Phase"
               >
-                {currentPhases[index]}
+                {currentPhases[index] >= 11 ? (
+                  <Crown className="h-3 w-3" />
+                ) : (
+                  currentPhases[index]
+                )}
               </Badge>
             </div>
           </TableCell>
