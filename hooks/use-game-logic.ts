@@ -245,6 +245,70 @@ export function useGameLogic() {
     });
   };
 
+  // Calculate detailed game statistics
+  const getGameStatistics = () => {
+    const rankedPlayers = getRankedPlayers();
+    const gamePhases = phases.filter(phase => !phase.isTotal);
+    
+    // Per-player statistics
+    const playerStats = Array.from({ length: playerCount }, (_, playerIndex) => {
+      const playerName = playerNames[playerIndex] || `Player ${playerIndex + 1}`;
+      const playerScores = gamePhases.map((_, phaseIndex) => scores[phaseIndex]?.[playerIndex] || 0);
+      const nonZeroScores = playerScores.filter(score => score > 0);
+      
+      return {
+        name: playerName,
+        index: playerIndex,
+        totalScore: calculateTotal(playerIndex),
+        currentPhase: currentPhases[playerIndex],
+        phasesCompleted: Math.min(currentPhases[playerIndex] - 1, 10),
+        highestSingleScore: Math.max(...playerScores, 0),
+        lowestNonZeroScore: nonZeroScores.length > 0 ? Math.min(...nonZeroScores) : 0,
+        averageScore: nonZeroScores.length > 0 ? Math.round((nonZeroScores.reduce((sum, score) => sum + score, 0) / nonZeroScores.length) * 10) / 10 : 0,
+        roundsWithPoints: nonZeroScores.length,
+        perfectRounds: playerScores.filter(score => score === 0).length,
+        scoringPattern: playerScores,
+      };
+    });
+
+    // Global game statistics
+    const allScores = gamePhases.flatMap((_, phaseIndex) => 
+      Array.from({ length: playerCount }, (_, playerIndex) => scores[phaseIndex]?.[playerIndex] || 0)
+    ).filter(score => score > 0);
+
+    const gameStats = {
+      totalRoundsPlayed: gamePhases.length,
+      highestSingleScore: allScores.length > 0 ? Math.max(...allScores) : 0,
+      lowestNonZeroScore: allScores.length > 0 ? Math.min(...allScores) : 0,
+      averageScorePerRound: allScores.length > 0 ? Math.round((allScores.reduce((sum, score) => sum + score, 0) / allScores.length) * 10) / 10 : 0,
+      totalPointsScored: allScores.reduce((sum, score) => sum + score, 0),
+      mostCompetitivePhase: (() => {
+        let mostCompetitive = { phase: 1, variance: 0 };
+        gamePhases.forEach((phase, phaseIndex) => {
+          const phaseScores = Array.from({ length: playerCount }, (_, playerIndex) => 
+            scores[phaseIndex]?.[playerIndex] || 0
+          ).filter(score => score > 0);
+          
+          if (phaseScores.length > 1) {
+            const avg = phaseScores.reduce((sum, score) => sum + score, 0) / phaseScores.length;
+            const variance = phaseScores.reduce((sum, score) => sum + Math.pow(score - avg, 2), 0) / phaseScores.length;
+            
+            if (variance > mostCompetitive.variance) {
+              mostCompetitive = { phase: phase.id, variance };
+            }
+          }
+        });
+        return mostCompetitive.phase;
+      })(),
+    };
+
+    return {
+      playerStats,
+      gameStats,
+      rankedPlayers,
+    };
+  };
+
   return {
     // State
     playerCount,
@@ -266,5 +330,6 @@ export function useGameLogic() {
     setEndGameDialogOpen,
     calculateTotal,
     getRankedPlayers,
+    getGameStatistics,
   };
 }

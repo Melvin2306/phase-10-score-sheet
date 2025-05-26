@@ -28,6 +28,7 @@ export function PhaseScoreSheet() {
     setEndGameDialogOpen,
     calculateTotal,
     getRankedPlayers,
+    getGameStatistics,
   } = useGameLogic();
 
   return (
@@ -74,6 +75,7 @@ export function PhaseScoreSheet() {
         isOpen={endGameDialogOpen}
         onOpenChange={setEndGameDialogOpen}
         getRankedPlayers={getRankedPlayers}
+        getGameStatistics={getGameStatistics}
         onEndGame={handleEndGame}
       >
         <div />
