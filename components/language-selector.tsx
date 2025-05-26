@@ -34,6 +34,24 @@ export function LanguageSelector() {
         >
           🇩🇪 {t("german")}
         </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setLanguage("it")}
+          className={language === "it" ? "bg-accent" : ""}
+        >
+          🇮🇹 {t("italian")}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setLanguage("fr")}
+          className={language === "fr" ? "bg-accent" : ""}
+        >
+          🇫🇷 {t("french")}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setLanguage("es")}
+          className={language === "es" ? "bg-accent" : ""}
+        >
+          🇪🇸 {t("spanish")}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

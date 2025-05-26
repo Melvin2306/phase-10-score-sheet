@@ -156,7 +156,7 @@ export function useGameLogic() {
   const addPlayer = () => {
     if (playerCount < 6) {
       setPlayerCount(playerCount + 1);
-      toast.success("Player added successfully!");
+      toast.success(t("playerAddedSuccessfully"));
     }
   };
 
@@ -164,7 +164,7 @@ export function useGameLogic() {
   const removePlayer = () => {
     if (playerCount > 2) {
       setPlayerCount(playerCount - 1);
-      toast.success("Player removed successfully!");
+      toast.success(t("playerRemovedSuccessfully"));
     }
   };
 
@@ -173,7 +173,7 @@ export function useGameLogic() {
     const newNames = [...playerNames];
     newNames[index] = name;
     setPlayerNames(newNames);
-    toast.success("Player name updated successfully!");
+    toast.success(t("playerNameUpdatedSuccessfully"));
   };
 
   // Reset the game
@@ -186,7 +186,7 @@ export function useGameLogic() {
     );
     setWinner("");
     setCurrentPhases(Array.from({ length: 6 }, () => 1));
-    toast.success("Game reset successfully!");
+    toast.success(t("gameResetSuccessfully"));
   };
 
   // Update the current phase for a player
@@ -206,7 +206,7 @@ export function useGameLogic() {
         newPhases[playerIndex] = phaseId;
         const playerName =
           playerNames[playerIndex] || `Player ${playerIndex + 1}`;
-        toast.info(`${playerName} reverted to phase ${phaseId}`);
+        toast.info(`${playerName} ${t("playerRevertedToPhase")} ${phaseId}`);
       } else {
         // Don't allow unchecking phases that aren't the last one
         return;
@@ -218,7 +218,7 @@ export function useGameLogic() {
     if (completed) {
       const playerName =
         playerNames[playerIndex] || `Player ${playerIndex + 1}`;
-      toast.success(`${playerName} completed phase ${phaseId}!`);
+      toast.success(`${playerName} ${t("playerCompletedPhase")} ${phaseId}!`);
     }
   };
 

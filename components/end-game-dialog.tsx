@@ -99,11 +99,11 @@ export function EndGameDialog({
                       {t("winner")}: {rankedPlayers[0].name}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {t("score")}: {rankedPlayers[0].score} {t("points")}
-                    </div>
-                    <div className="text-sm text-gray-600">
                       {t("phase")}: {Math.min(rankedPlayers[0].phase, 10)}{" "}
                       {t("phaseOf")} 10
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {t("score")}: {rankedPlayers[0].score} {t("points")}
                     </div>
                   </div>
                 )}
@@ -131,11 +131,11 @@ export function EndGameDialog({
                               <span>{player.name}</span>
                             </div>
                             <div className="text-right text-sm">
-                              <div>
-                                {player.score} {t("points")}
-                              </div>
                               <div className="text-gray-500">
                                 {t("phase")} {Math.min(player.phase, 10)}
+                              </div>
+                              <div>
+                                {player.score} {t("points")}
                               </div>
                             </div>
                           </div>
@@ -164,11 +164,11 @@ export function EndGameDialog({
                             <span>{player.name}</span>
                           </div>
                           <div className="text-right text-xs">
-                            <div>
-                              {player.score} {t("points")}
-                            </div>
                             <div className="text-gray-500">
                               {t("phase")} {Math.min(player.phase, 10)}
+                            </div>
+                            <div>
+                              {player.score} {t("points")}
                             </div>
                           </div>
                         </div>

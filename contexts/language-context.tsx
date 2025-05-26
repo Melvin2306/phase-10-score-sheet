@@ -37,7 +37,14 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   // Load language from localStorage on mount
   useEffect(() => {
     const savedLanguage = localStorage.getItem("phase10-language") as Language;
-    if (savedLanguage && (savedLanguage === "en" || savedLanguage === "de")) {
+    if (
+      savedLanguage &&
+      (savedLanguage === "en" ||
+        savedLanguage === "de" ||
+        savedLanguage === "it" ||
+        savedLanguage === "fr" ||
+        savedLanguage === "es")
+    ) {
       setLanguageState(savedLanguage);
     }
   }, []);
